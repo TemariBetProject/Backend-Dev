@@ -60,6 +60,27 @@ userSchema.methods.comparePassword =  async function(userPassword){
 
 const userModel = db.model('User', userSchema)
 
-module.exports = userModel
+const video_data_Schema = new Schema({
+    
+    Title:{
+        type:String,
+        required: true
+    },
+    urlLink:{
+        type:String,  
+        required: true
+    },
+    Description:{
+        type:String,
+        required: true
+    },
+})
 
- 
+const VideoModel = db.model('videoData', video_data_Schema )
+
+module.exports = {
+    userModel: userModel,
+    VideoModel: VideoModel
+}
+
+ //This is my user.model.js file
