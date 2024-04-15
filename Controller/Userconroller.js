@@ -55,7 +55,7 @@ exports.Video_Data_Upload = async(req,res,next)=>{
 exports.getLink = async (req, res, next) => {
     try {
 
-       const {Title}  = req.body
+       const {Title}  = req.query
         const videoLink = await userService.getVideoLink(Title); // Implemented method in userService
 
         res.status(200).json({ status: true, videoLink: videoLink });
