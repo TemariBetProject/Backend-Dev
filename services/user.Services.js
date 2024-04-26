@@ -13,10 +13,10 @@ class userService{
     
 
    // upload video data function
-    static async upload_video_data(Title,urlLink,Description){
+    static async upload_video_data(gradeLevel,Title,urlLink,Description,Course,image){
         try{
-          const createUser = new Model.VideoModel({Title,urlLink,Description})
-          return await createUser.save()
+          const createVideo = new Model.VideoModel({gradeLevel,Title,urlLink,Description,Course,image})
+          return await createVideo.save()
         }catch(err){
             throw err
         }
@@ -24,14 +24,9 @@ class userService{
     }
 
    
-    static async getVideoLink(title) {
+    static async getVideoDataByTitle(title) {
         try {
-            // Fetch the video link from the database based on the provided title
-            const video = await Model.VideoModel.findOne({ Title: title }); 
-            if (!video) {
-                throw new Error('Video not found');
-            }
-            return video.urlLink;
+            return await Model.VideoModel.findOne({ Title: title });
         } catch (err) {
             throw err;
         }

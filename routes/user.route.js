@@ -1,13 +1,26 @@
 const router = require('express').Router()
 const userController =  require('../Controller/Userconroller')
+const multer = require('multer');
+// Define storage for uploaded files
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/'); // Destination folder
+    },
+    filename: function (req, file, cb) {
+      // Use original file name with timestamp to avoid naming conflicts
+      cb(null, Date.now() + '-' + file.originalname);
+    }
+  });
+  // Create multer upload instance with the defined storage
+const upload = multer({ storage: storage });
 
+
+
+router.post('/upload_content', upload.single('image'), userController.Video_Data_Upload);
 router.post('/registration', userController.register)
-
 router.post('/login', userController.login)
+router.get('/get_video_data_by_title', userController.getVideoDataByTitle);
 
-router.post('/upload_content', userController.Video_Data_Upload)
-
-router.get('/getvideo',userController.getLink)
 
 module.exports = router
 

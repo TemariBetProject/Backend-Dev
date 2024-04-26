@@ -74,6 +74,19 @@ const video_data_Schema = new Schema({
         type:String,
         required: true
     },
+    gradeLevel:{
+        type: Number,
+        required:true
+    },
+    image: {
+        type: String, // Assuming you store image URLs in the database
+        required: true
+    },
+    Course:{
+        type: String,
+        required: true
+    }
+
 })
 
 const VideoModel = db.model('videoData', video_data_Schema )
