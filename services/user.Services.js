@@ -31,6 +31,16 @@ class userService{
             throw err;
         }
     }
+
+    // In services/user.Services.js
+static async getVideoDataByCourse(course) {
+    try {
+        return await Model.VideoModel.find({ Course: course }); // Note: Make sure the key is exactly as used in your schema
+    } catch (err) {
+        throw err;
+    }
+}
+
     
 
     static async checkUser(email){

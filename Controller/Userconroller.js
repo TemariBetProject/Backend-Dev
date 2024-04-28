@@ -67,6 +67,23 @@ exports.getVideoDataByTitle = async (req, res, next) => {
     }
 };
 
+// In Controller/UserController.js
+exports.getVideoDataByCourse = async (req, res, next) => {
+    try {
+        const { course } = req.query;
+        const videoData = await userService.getVideoDataByCourse(course);
+
+        if (!videoData || videoData.length === 0) { // Check if the array is empty
+            return res.status(404).json({ status: false, message: 'Video data not found' });
+        }
+
+        res.status(200).json({ status: true, videoData: videoData });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+
 
 //This is my Usercontroller.js file
 

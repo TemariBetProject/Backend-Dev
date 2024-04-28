@@ -20,6 +20,7 @@ router.post('/upload_content', upload.single('image'), userController.Video_Data
 router.post('/registration', userController.register)
 router.post('/login', userController.login)
 router.get('/get_video_data_by_title', userController.getVideoDataByTitle);
+router.get('/get_video_data_by_course', userController.getVideoDataByCourse);
 
 
 module.exports = router
