@@ -68,20 +68,33 @@ exports.getVideoDataByTitle = async (req, res, next) => {
 };
 
 // In Controller/UserController.js
-exports.getVideoDataByCourse = async (req, res, next) => {
+// User controller
+// In Controller/UserController.js
+// In Controller/UserController.js
+exports.getVideoDataByCourse = async (req, res) => {
     try {
-        const { course } = req.query;
-        const videoData = await userService.getVideoDataByCourse(course);
+        const { course, grade } = req.query;
+        const numericGrade = parseInt(grade, 10);  // Ensuring grade is an integer
+        if (isNaN(numericGrade)) {
+            return res.status(400).json({ status: false, message: 'Invalid grade provided' });
+        }
+        const videoData = await userService.getVideoDataByCourse(course, numericGrade);
 
-        if (!videoData || videoData.length === 0) { // Check if the array is empty
-            return res.status(404).json({ status: false, message: 'Video data not found' });
+        if (!videoData.length) {  // Check if the array is empty
+            return res.status(404).json({ status: false, message: 'Video data not found for the specified course and grade' });
         }
 
-        res.status(200).json({ status: true, videoData: videoData });
+        res.json({ status: true, videoData });
     } catch (err) {
+        console.error("Error fetching video data:", err);  // More detailed error logging
         res.status(500).json({ status: false, message: err.message });
     }
 };
+
+
+
+  
+
 
 
 

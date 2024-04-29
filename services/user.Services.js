@@ -24,22 +24,14 @@ class userService{
     }
 
    
-    static async getVideoDataByTitle(title) {
+    static async getVideoDataByCourse(course, gradeLevel) {
         try {
-            return await Model.VideoModel.findOne({ Title: title });
+            return await Model.VideoModel.find({ Course: course, gradeLevel: gradeLevel });
         } catch (err) {
             throw err;
         }
     }
 
-    // In services/user.Services.js
-static async getVideoDataByCourse(course) {
-    try {
-        return await Model.VideoModel.find({ Course: course }); // Note: Make sure the key is exactly as used in your schema
-    } catch (err) {
-        throw err;
-    }
-}
 
     
 
