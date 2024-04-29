@@ -1,4 +1,5 @@
 const userService = require('../services/user.Services')
+
 // In Controller/UserController.js
 const { VideoModel } = require('../model/user.model');  // Make sure the path is correct and VideoModel is included
 
@@ -112,6 +113,22 @@ exports.getTopVideos = async (req, res) => {
     try {
         const videos = await VideoModel.find().sort({ views: -1 }).limit(3);
         res.json({ status: true, videoData: videos });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+exports.searchLessons = async (req, res) => {
+    try {
+        const searchText = req.query.q;
+        const regex = new RegExp(searchText, 'i');
+        const lessons = await VideoModel.find({
+            $or: [
+                { Title: { $regex: regex } },
+                { Description: { $regex: regex } }
+            ]
+        });
+        res.json({ status: true, videoData: lessons });
     } catch (err) {
         res.status(500).json({ status: false, message: err.message });
     }

@@ -26,6 +26,9 @@ router.patch('/video/:id/incrementViews', userController.incrementVideoViews);
 // Route to get top viewed videos
 router.get('/videos/topViews', userController.getTopVideos);
 
+router.get('/search', userController.searchLessons);
+
+
 
 module.exports = router
 
