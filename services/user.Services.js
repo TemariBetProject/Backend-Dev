@@ -11,7 +11,6 @@ class userService{
         }
     }
     
-
    // upload video data function
     static async upload_video_data(gradeLevel,Title,urlLink,Description,Course,image){
         try{
@@ -22,7 +21,6 @@ class userService{
         }
 
     }
-
    
     static async getVideoDataByCourse(course, gradeLevel) {
         try {
@@ -31,9 +29,6 @@ class userService{
             throw err;
         }
     }
-
-
-    
 
     static async checkUser(email){
         try {

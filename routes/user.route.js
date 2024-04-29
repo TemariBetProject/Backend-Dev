@@ -14,13 +14,17 @@ const storage = multer.diskStorage({
   // Create multer upload instance with the defined storage
 const upload = multer({ storage: storage });
 
-
-
 router.post('/upload_content', upload.single('image'), userController.Video_Data_Upload);
 router.post('/registration', userController.register)
 router.post('/login', userController.login)
 router.get('/get_video_data_by_title', userController.getVideoDataByTitle);
 router.get('/get_video_data_by_course', userController.getVideoDataByCourse);
+
+// Route to increment video views
+router.patch('/video/:id/incrementViews', userController.incrementVideoViews);
+
+// Route to get top viewed videos
+router.get('/videos/topViews', userController.getTopVideos);
 
 
 module.exports = router

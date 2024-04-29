@@ -1,4 +1,7 @@
 const userService = require('../services/user.Services')
+// In Controller/UserController.js
+const { VideoModel } = require('../model/user.model');  // Make sure the path is correct and VideoModel is included
+
 
 exports.register = async(req,res,next)=>{
     try{
@@ -37,8 +40,6 @@ exports.login = async(req,res,next)=>{
         throw err
     }
 }
-
-
 
 exports.Video_Data_Upload = async (req, res, next) => {
     try {
@@ -91,13 +92,29 @@ exports.getVideoDataByCourse = async (req, res) => {
     }
 };
 
-
-
-  
-
-
-
-
 //This is my Usercontroller.js file
+// Increment view count
+exports.incrementVideoViews = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const video = await VideoModel.findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true });
+        if (!video) {
+            return res.status(404).json({ status: false, message: 'Video not found' });
+        }
+        res.status(200).json({ status: true, video });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+// Get top viewed videos
+exports.getTopVideos = async (req, res) => {
+    try {
+        const videos = await VideoModel.find().sort({ views: -1 }).limit(3);
+        res.json({ status: true, videoData: videos });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
 
 
