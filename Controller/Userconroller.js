@@ -1,5 +1,9 @@
 const userService = require('../services/user.Services')
 
+// In Controller/UserController.js
+const { VideoModel } = require('../model/user.model');  // Make sure the path is correct and VideoModel is included
+
+
 exports.register = async(req,res,next)=>{
     try{
         const {firstName,lastName,schoolName,phoneNumber,email, password} = req.body
@@ -38,8 +42,6 @@ exports.login = async(req,res,next)=>{
     }
 }
 
-
-
 exports.Video_Data_Upload = async (req, res, next) => {
     try {
         const { gradeLevel,Title,urlLink,Description,Course} = req.body;
@@ -67,7 +69,69 @@ exports.getVideoDataByTitle = async (req, res, next) => {
     }
 };
 
+// In Controller/UserController.js
+// User controller
+// In Controller/UserController.js
+// In Controller/UserController.js
+exports.getVideoDataByCourse = async (req, res) => {
+    try {
+        const { course, grade } = req.query;
+        const numericGrade = parseInt(grade, 10);  // Ensuring grade is an integer
+        if (isNaN(numericGrade)) {
+            return res.status(400).json({ status: false, message: 'Invalid grade provided' });
+        }
+        const videoData = await userService.getVideoDataByCourse(course, numericGrade);
+
+        if (!videoData.length) {  // Check if the array is empty
+            return res.status(404).json({ status: false, message: 'Video data not found for the specified course and grade' });
+        }
+
+        res.json({ status: true, videoData });
+    } catch (err) {
+        console.error("Error fetching video data:", err);  // More detailed error logging
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
 
 //This is my Usercontroller.js file
+// Increment view count
+exports.incrementVideoViews = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const video = await VideoModel.findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true });
+        if (!video) {
+            return res.status(404).json({ status: false, message: 'Video not found' });
+        }
+        res.status(200).json({ status: true, video });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+// Get top viewed videos
+exports.getTopVideos = async (req, res) => {
+    try {
+        const videos = await VideoModel.find().sort({ views: -1 }).limit(3);
+        res.json({ status: true, videoData: videos });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+exports.searchLessons = async (req, res) => {
+    try {
+        const searchText = req.query.q;
+        const regex = new RegExp(searchText, 'i');
+        const lessons = await VideoModel.find({
+            $or: [
+                { Title: { $regex: regex } },
+                { Description: { $regex: regex } }
+            ]
+        });
+        res.json({ status: true, videoData: lessons });
+    } catch (err) {
+        res.status(500).json({ status: false, message: err.message });
+    }
+};
 
 

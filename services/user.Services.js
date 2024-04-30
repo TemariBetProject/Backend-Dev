@@ -11,7 +11,6 @@ class userService{
         }
     }
     
-
    // upload video data function
     static async upload_video_data(gradeLevel,Title,urlLink,Description,Course,image){
         try{
@@ -22,16 +21,14 @@ class userService{
         }
 
     }
-
    
-    static async getVideoDataByTitle(title) {
+    static async getVideoDataByCourse(course, gradeLevel) {
         try {
-            return await Model.VideoModel.findOne({ Title: title });
+            return await Model.VideoModel.find({ Course: course, gradeLevel: gradeLevel });
         } catch (err) {
             throw err;
         }
     }
-    
 
     static async checkUser(email){
         try {

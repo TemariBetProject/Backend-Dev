@@ -5,12 +5,9 @@ const port = 3000;
 
 //dbconnection
 
-
 app.get('/',(req,res)=>{
     res.send('I am pretty ')
 })
-
-
 
 app.listen(port,()=>{
     console.log(`Server Listening on port http://localhost:${port}`)

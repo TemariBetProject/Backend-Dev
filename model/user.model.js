@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt')
 
 const {Schema} = mongoose
 
-
-
 const userSchema = new Schema({
     
     firstName:{
@@ -61,33 +59,15 @@ userSchema.methods.comparePassword =  async function(userPassword){
 const userModel = db.model('User', userSchema)
 
 const video_data_Schema = new Schema({
-    
-    Title:{
-        type:String,
-        required: true
-    },
-    urlLink:{
-        type:String,  
-        required: true
-    },
-    Description:{
-        type:String,
-        required: true
-    },
-    gradeLevel:{
-        type: Number,
-        required:true
-    },
-    image: {
-        type: String, // Assuming you store image URLs in the database
-        required: true
-    },
-    Course:{
-        type: String,
-        required: true
-    }
+    Title: { type: String, required: true },
+    urlLink: { type: String, required: true },
+    Description: { type: String, required: true },
+    gradeLevel: { type: Number, required: true },
+    image: { type: String, required: true },
+    Course: { type: String, required: true },
+    views: { type: Number, default: 0 }  // Tracking the number of views
+});
 
-})
 
 const VideoModel = db.model('videoData', video_data_Schema )
 
